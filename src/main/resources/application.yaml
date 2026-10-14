@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: eureka-server
+  threads:
+    virtual:
+      enabled: true
 
 eureka:
   client:
