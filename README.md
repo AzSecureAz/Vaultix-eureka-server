@@ -95,4 +95,3 @@ eureka-server/
 ```
 
 Once started, open the web console at [http://localhost:8761](http://localhost:8761) to monitor registered microservice instances.
-
