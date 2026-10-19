@@ -48,6 +48,7 @@ Centralized **Service Registry & Discovery** server for the **Vaultix** microser
 | :--- | :--- | :--- | :--- |
 | `gateway` | `8085` | API Gateway & Reverse Proxy | Entry Point (`/api/v1/...`) |
 | `authorization` | `8082` | Auth, JWT, User & Session Management | `/api/v1/auth/**` |
+| `demo` | `8083` | Sample Resource Server (RBAC & Revocation demo) | `/api/v1/demo/**` |
 
 ---
 
