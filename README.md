@@ -16,7 +16,17 @@ Centralized **Service Registry & Discovery** server for the **Vaultix** microser
 
 ---
 
-## Architecture & Ecosystem Role
+## Documentation Index
+
+Detailed service discovery architecture, load balancing mechanics, and client registration guides are maintained in the [`docs/`](docs/) directory:
+
+| Document | Description |
+| :--- | :--- |
+| 📖 [**Architecture & Service Discovery**](docs/ARCHITECTURE.md) | In-depth breakdown of dynamic service registration, client-side load balancing (`lb://`), liveness tracking & heartbeats, registered microservices matrix, and client registration guidelines. |
+
+---
+
+## Architectural Data Flow
 
 ```
                      ┌─────────────────────────┐
@@ -34,40 +44,6 @@ Centralized **Service Registry & Discovery** server for the **Vaultix** microser
                      Routes via lb://authorization
 ```
 
-### Key Responsibilities:
-1. **Dynamic Service Registration**: Downstream microservices (`authorization`, `gateway`, etc.) automatically announce their network locations and metadata on boot.
-2. **Dynamic Client Routing**: The API Gateway discovers live instances dynamically and load balances requests via `lb://<service-name>` without static IPs or DNS entries.
-3. **Continuous Liveness & Heartbeats**: Tracks instance health with periodic heartbeat signals (evicting unhealthy nodes when heartbeats expire).
-4. **Standalone Mode**: Configured with `register-with-eureka: false` and `fetch-registry: false` to operate purely as the discovery registry in local development.
-
----
-
-## Registered Microservices
-
-| Service Application Name | Port | Description | Downstream Route (via Gateway) |
-| :--- | :--- | :--- | :--- |
-| `gateway` | `8085` | API Gateway & Reverse Proxy | Entry Point (`/api/v1/...`) |
-| `authorization` | `8082` | Auth, JWT, User & Session Management | `/api/v1/auth/**` |
-| `demo` | `8083` | Sample Resource Server (RBAC & Revocation demo) | `/api/v1/demo/**` |
-| `notification` | `8084` | Asynchronous Email & Notification Dispatch | `/api/v1/notifications/**` |
-
-
----
-
-## Client Microservice Configuration
-
-To register a microservice with this Eureka Server, configure its `application.yaml`:
-
-```yaml
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8761/eureka/}
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${random.value}
-```
-
 ---
 
 ## Directory Structure
@@ -76,6 +52,8 @@ eureka:
 eureka-server/
 ├── pom.xml
 ├── README.md
+├── docs/
+│   └── ARCHITECTURE.md
 └── src/main/
     ├── java/com/vaultix/eureka_server/
     │   └── EurekaServerApplication.java
